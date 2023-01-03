@@ -1,0 +1,340 @@
+es2pg:
+  elasticsearch:
+    auth:
+      username: dashb_admin
+      password: t6nbNR5bY6K7QTN
+    nodes:
+      - scheme: https
+        host: 158.160.9.168
+        port: 9200
+        ca_certs: './certs/ca.crt'
+        ssl_assert_hostname: 127.0.0.1
+  postgresql:
+    node:
+      host: rc1b-xwch8pwkk17y5bf7.mdb.yandexcloud.net
+      user: dashb_admin
+      password: WenH58KvQraEBNi
+      dbname: dashb_poly
+      port: 6432
+      sslmode: verify-ca
+      sslrootcert: './certs/CA.pem'
+    configuration_table: meta
+  requests:
+    - name: filebeat_mqtt
+      source:
+        pattern: '.ds-filebeat_mqtt_*-fandonet-*'
+        page_size: 1000
+        query:
+          match_all: {}
+        sort:
+          - "@timestamp"
+      destination:
+        table: mqtt
+        schema:
+          id:
+            type: varchar
+            source: [_id]
+            primary_key: yes
+          _timestamp:
+            type: timestamptz
+            source: [_source, "@timestamp"]
+          Activity.Status:
+            type: boolean
+            source: [_source, Activity.Status]
+          Barcode:
+            type: varchar
+            source: [_source, Barcode]
+          CONTROLLER_LAST_SUCCESS_PING_AT:
+            type: varchar
+            source: [_source, CONTROLLER_LAST_SUCCESS_PING_AT]
+          CONTROLLER_UNAVAILABLE:
+            type: boolean
+            source: [_source, CONTROLLER_UNAVAILABLE]
+          DriverInfo.Electricity:
+            type: numeric(16, 4)
+            source: [_source, DriverInfo.Electricity]
+          DriverInfo.State:
+            type: int8
+            source: [_source, DriverInfo.State]
+          DriverInfo.Temperature:
+            type: numeric(16, 4)
+            source: [_source, DriverInfo.Temperature]
+          ErrorCode:
+            type: int8
+            source: [_source, ErrorCode]
+          ErrorType:
+            type: int8
+            source: [_source, ErrorType]
+          EventDriver.DriverError:
+            type: int8
+            source: [_source, EventDriver.DriverError]
+          EventName:
+            type: varchar
+            source: [_source, EventName]
+          EventSWStart.Version:
+            type: varchar
+            source: [_source, EventSWStart.Version]
+          EventSWStop.IsRegular:
+            type: boolean
+            source: [_source, EventSWStop.IsRegular]
+          EventSWStop.Stack:
+            type: varchar
+            source: [_source, EventSWStop.Stack]
+          EventType:
+            type: varchar
+            source: [_source, EventType]
+          FandomatId:
+            type: int8
+            source: [_source, FandomatId]
+          Faults.Error.DriverInfo.Electricity:
+            type: boolean
+            source: [_source, Faults.Error.DriverInfo.Electricity]
+          Faults.Error.DriverInfo.State:
+            type: boolean
+            source: [_source, Faults.Error.DriverInfo.State]
+          Faults.Error.MaterialInfo.WeightError:
+            type: boolean
+            source: [_source, Faults.Error.MaterialInfo.WeightError]
+          Faults.Error.Sensors.FirstOpto.LongTimeClosed:
+            type: boolean
+            source: [_source, Faults.Error.Sensors.FirstOpto.LongTimeClosed]
+          Faults.Error.Sensors.Induction.LongTimeClosed:
+            type: boolean
+            source: [_source, Faults.Error.Sensors.Induction.LongTimeClosed]
+          Faults.Error.Sensors.ResetAluminum.LongTimeClosed:
+            type: boolean
+            source: [_source, Faults.Error.Sensors.ResetAluminum.LongTimeClosed]
+          Faults.Error.Sensors.ResetPlastic.LongtimeClosed:
+            type: boolean
+            source: [_source, Faults.Error.Sensors.ResetPlastic.LongtimeClosed]
+          Faults.Error.Sensors.SecondOpto.LongTimeClosed:
+            type: boolean
+            source: [_source, Faults.Error.Sensors.SecondOpto.LongTimeClosed]
+          Faults.Error.Sensors.Skip.Aluminium:
+            type: boolean
+            source: [_source, Faults.Error.Sensors.Skip.Aluminium]
+          Faults.Error.Sensors.Skip.Plastic:
+            type: boolean
+            source: [_source, Faults.Error.Sensors.Skip.Plastic]
+          Faults.Error.Sensors.ThirdOpto.LongTimeClosed:
+            type: boolean
+            source: [_source, Faults.Error.Sensors.ThirdOpto.LongTimeClosed]
+          Faults.Information.BoxFilling.AlmostFilled.Aluminium:
+            type: boolean
+            source: [_source, Faults.Information.BoxFilling.AlmostFilled.Aluminium]
+          Faults.Information.BoxFilling.AlmostFilled.Plastic:
+            type: boolean
+            source: [_source, Faults.Information.BoxFilling.AlmostFilled.Plastic]
+          Faults.Information.BoxFilling.CompletelyFilled.Aluminium:
+            type: boolean
+            source: [_source, Faults.Information.BoxFilling.CompletelyFilled.Aluminium]
+          Faults.Information.BoxFilling.CompletelyFilled.Plastic:
+            type: boolean
+            source: [_source, Faults.Information.BoxFilling.CompletelyFilled.Plastic]
+          Faults.Information.Calib:
+            type: boolean
+            source: [_source, Faults.Information.Calib]
+          Faults.Information.Door.Bottom:
+            type: boolean
+            source: [_source, Faults.Information.Door.Bottom]
+          Faults.Information.Door.Top:
+            type: boolean
+            source: [_source, Faults.Information.Door.Top]
+          Faults.Information.DropperInfo.MiddleState:
+            type: boolean
+            source: [_source, Faults.Information.DropperInfo.MiddleState]
+          Faults.Information.MaterialInfo.MaterialType:
+            type: boolean
+            source: [_source, Faults.Information.MaterialInfo.MaterialType]
+          Faults.Information.Sensor.ThirdOpto.Enable:
+            type: boolean
+            source: [_source, Faults.Information.Sensor.ThirdOpto.Enable]
+          Faults.Information.Sensors.Aluminium.Enable:
+            type: boolean
+            source: [_source, Faults.Information.Sensors.Aluminium.Enable]
+          Faults.Information.Sensors.FirstOpto.Enable:
+            type: boolean
+            source: [_source, Faults.Information.Sensors.FirstOpto.Enable]
+          Faults.Information.Sensors.Plastic.Enable:
+            type: boolean
+            source: [_source, Faults.Information.Sensors.Plastic.Enable]
+          Faults.Information.Sensors.SecondOpto.Enable:
+            type: boolean
+            source: [_source, Faults.Information.Sensors.SecondOpto.Enable]
+          IsAccepted:
+            type: boolean
+            source: [_source, IsAccepted]
+          Material.MaterialCount:
+            type: int8
+            source: [_source, Material.MaterialCount]
+          Material.MaterialWeight:
+            type: numeric(16, 4)
+            source: [_source, Material.MaterialWeight]
+          MaterialInfo.Aluminium.Count:
+            type: int8
+            source: [_source, MaterialInfo.Aluminium.Count]
+          MaterialInfo.Aluminium.CountAll:
+            type: int8
+            source: [_source, MaterialInfo.Aluminium.CountAll]
+          MaterialInfo.Aluminium.CountCurrent:
+            type: int8
+            source: [_source, MaterialInfo.Aluminium.CountCurrent]
+          MaterialInfo.Aluminium.CountCurrentLimit:
+            type: int8
+            source: [_source, MaterialInfo.Aluminium.CountCurrentLimit]
+          MaterialInfo.Aluminium.WeightAll:
+            type: numeric(16, 4)
+            source: [_source, MaterialInfo.Aluminium.WeightAll]
+          MaterialInfo.Aluminium.WeightCurrent:
+            type: numeric(16, 4)
+            source: [_source, MaterialInfo.Aluminium.WeightCurrent]
+          MaterialInfo.Aluminium.WeightCurrentLimit:
+            type: numeric(16, 4)
+            source: [_source, MaterialInfo.Aluminium.WeightCurrentLimit]
+          MaterialInfo.Plastic.Count:
+            type: int8
+            source: [_source, MaterialInfo.Plastic.Count]
+          MaterialInfo.Plastic.CountAll:
+            type: int8
+            source: [_source, MaterialInfo.Plastic.CountAll]
+          MaterialInfo.Plastic.CountCurrent:
+            type: int8
+            source: [_source, MaterialInfo.Plastic.CountCurrent]
+          MaterialInfo.Plastic.CountCurrentLimit:
+            type: int8
+            source: [_source, MaterialInfo.Plastic.CountCurrentLimit]
+          MaterialInfo.Plastic.WeightAll:
+            type: numeric(16, 4)
+            source: [_source, MaterialInfo.Plastic.WeightAll]
+          MaterialInfo.Plastic.WeightCurrent:
+            type: numeric(16, 4)
+            source: [_source, MaterialInfo.Plastic.WeightCurrent]
+          MaterialInfo.Plastic.WeightCurrentLimit:
+            type: numeric(16, 4)
+            source: [_source, MaterialInfo.Plastic.WeightCurrentLimit]
+          MessageUid:
+            type: varchar
+            source: [_source, MessageUid]
+          Operation.Mode:
+            type: int8
+            source: [_source, Operation.Mode]
+          PC_LAST_SUCCESS_PING_AT:
+            type: varchar
+            source: [_source, PC_LAST_SUCCESS_PING_AT]
+          PC_UNAVAILABLE:
+            type: boolean
+            source: [_source, PC_UNAVAILABLE]
+          Print.PrintType:
+            type: int8
+            source: [_source, Print.PrintType]
+          QRCode.Code:
+            type: varchar
+            source: [_source, QRCode.Code]
+          ROUTER_LAST_SUCCESS_PING_AT:
+            type: varchar
+            source: [_source, ROUTER_LAST_SUCCESS_PING_AT]
+          ROUTER_UNAVAILABLE:
+            type: boolean
+            source: [_source, ROUTER_UNAVAILABLE]
+          Session.AluminiumCount:
+            type: int8
+            source: [_source, Session.AluminiumCount]
+          Session.EndReason:
+            type: int8
+            source: [_source, Session.EndReason]
+          Session.GlassCount:
+            type: int8
+            source: [_source, Session.GlassCount]
+          Session.PlasticCount:
+            type: int8
+            source: [_source, Session.PlasticCount]
+          Session.Skip.Limit:
+            type: int8
+            source: [_source, Session.Skip.Limit]
+          Session.StartReason:
+            type: int8
+            source: [_source, Session.StartReason]
+          Session.Time.Limit:
+            type: int8
+            source: [_source, Session.Time.Limit]
+          Session.TotalCount:
+            type: int8
+            source: [_source, Session.TotalCount]
+          Session.UniqueCode:
+            type: varchar
+            source: [_source, Session.UniqueCode]
+          SoftwareEventType:
+            type: varchar
+            source: [_source, SoftwareEventType]
+          Status:
+            type: int8
+            source: [_source, Status]
+          StatusError:
+            type: int8
+            source: [_source, StatusError]
+          Time:
+            type: timestamptz
+            source: [_source, Time]
+          agent.ephemeral_id:
+            type: varchar
+            source: [_source, agent, ephemeral_id]
+          agent.id:
+            type: varchar
+            source: [_source, agent, id]
+          agent.name:
+            type: varchar
+            source: [_source, agent, name]
+          agent.type:
+            type: varchar
+            source: [_source, agent, type]
+          agent.version:
+            type: varchar
+            source: [_source, agent, version]
+          cloud.account:
+            type: varchar
+            source: [_source, cloud, account]
+          cloud.availability_zone:
+            type: varchar
+            source: [_source, cloud, availability_zone]
+          cloud.image:
+            type: varchar
+            source: [_source, cloud, image]
+          cloud.instance.id:
+            type: varchar
+            source: [_source, cloud, instance, id]
+          cloud.machine:
+            type: varchar
+            source: [_source, cloud, machine]
+          cloud.provider:
+            type: varchar
+            source: [_source, cloud, provider]
+          cloud.region:
+            type: varchar
+            source: [_source, cloud, region]
+          cloud.service.name:
+            type: varchar
+            source: [_source, cloud, service, name]
+          ecs.version:
+            type: varchar
+            source: [_source, ecs, version]
+          host.name:
+            type: varchar
+            source: [_source, host, name]
+          input.type:
+            type: varchar
+            source: [_source, input, type]
+          mqtt.duplicate:
+            type: boolean
+            source: [_source, mqtt, duplicate]
+          mqtt.message_id:
+            type: int8
+            source: [_source, mqtt, message_id]
+          mqtt.qos:
+            type: int8
+            source: [_source, mqtt, qos]
+          mqtt.retained:
+            type: boolean
+            source: [_source, mqtt, retained]
+          mqtt.topic:
+            type: varchar
+            source: [_source, mqtt, topic]
